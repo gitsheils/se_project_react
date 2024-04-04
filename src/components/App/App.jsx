@@ -10,7 +10,11 @@ import ItemModal from "../ItemModal/ItemModal.jsx";
 import { getWeather } from "../../utils/weatherAPI.js";
 import { coordinates, APIkey } from "../../utils/constants.js";
 
+import AddGarmentForm from "../AddGarmentForm/AddGarmentForm.jsx";
+
 function App() {
+  const addGarmentForm = <AddGarmentForm />;
+
   const [weatherData, setWeatherData] = useState({
     city: "",
     temp: "",
@@ -63,6 +67,7 @@ function App() {
           closeModal={closeModal}
           title="New garment"
           buttonLabel="Add garment"
+          formType={addGarmentForm}
         />
         <ItemModal
           isOpen={isOpen}
