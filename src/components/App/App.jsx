@@ -17,16 +17,16 @@ function App() {
     type: "cold",
   });
 
-  const [activeModal, setActiveModal] = useState("");
+  const [isOpen, setIsOpen] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const handleAddClick = () => {
-    setActiveModal("addgarm");
+    setIsOpen("addgarm");
   };
   const closeModal = () => {
-    setActiveModal("");
+    setIsOpen("");
   };
   const handleCardClick = (card) => {
-    setActiveModal("preview");
+    setIsOpen("preview");
     setSelectedCard(card);
   };
 
@@ -58,9 +58,14 @@ function App() {
         <Header weatherData={weatherData} handleAddClick={handleAddClick} />
         <Main weatherData={weatherData} handleCardClick={handleCardClick} />
         <Footer />
-        <ModalWithForm activeModal={activeModal} closeModal={closeModal} />
+        <ModalWithForm
+          isOpen={isOpen}
+          closeModal={closeModal}
+          title="New garment"
+          buttonLabel="Add garment"
+        />
         <ItemModal
-          activeModal={activeModal}
+          isOpen={isOpen}
           card={selectedCard}
           closeModal={closeModal}
         />
