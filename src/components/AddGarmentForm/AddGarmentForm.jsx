@@ -1,7 +1,7 @@
 import "./AddGarmentForm.css";
-function AddGarmentForm({ buttonLabel }) {
+function AddGarmentForm() {
   return (
-    <form className="form">
+    <>
       <label className="form__label" htmlFor="name">
         Name
         <input
@@ -47,10 +47,7 @@ function AddGarmentForm({ buttonLabel }) {
           Cold
         </label>
       </fieldset>
-      <button className="form__submit" type="submit">
-        {buttonLabel}{" "}
-      </button>
-    </form>
+    </>
   );
 }
 

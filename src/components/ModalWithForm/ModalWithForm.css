@@ -49,6 +49,7 @@
   flex-direction: column;
   width: 100%;
 }
+/*
 .modal__label {
   margin: 24px 0 0;
 }
@@ -76,6 +77,7 @@
 .modal__legend {
   margin: 0 0 4px;
 }
+*/
 .modal__submit {
   width: 134px;
   height: 36px;

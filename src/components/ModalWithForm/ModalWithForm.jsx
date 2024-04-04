@@ -7,8 +7,13 @@ function ModalWithForm({ isOpen, closeModal, title, buttonLabel }) {
       <div className="modal__content">
         <button className="modal__close" onClick={closeModal}></button>
         <h2 className="modal__title">{title}</h2>
-
-        <AddGarmentForm buttonLabel={buttonLabel} />
+        <form className="modal__form">
+          <AddGarmentForm />
+          <button className="modal__submit" type="submit">
+            {buttonLabel}
+          </button>
+        </form>
+        {/*<AddGarmentForm buttonLabel={buttonLabel} />*/}
       </div>
     </div>
   );
