@@ -74,11 +74,14 @@ function App() {
   }, []);
 
   const handleAddItemSubmit = (item) => {
-    addItem(item.name, item.weather, item.link).then(() => {
-      setClothingItems([item, ...clothingItems]);
-      closeModal();
-    });
+    addItem(item.name, item.weather, item.link)
+      .then((res) => {
+        setClothingItems([res, ...clothingItems]);
+        closeModal();
+      })
+      .catch(console.error);
   };
+
   const [clothingItems, setClothingItems] = useState([]);
   const handleDeleteCard = (card) => {
     deleteItem(card._id)

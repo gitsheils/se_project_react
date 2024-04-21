@@ -62,7 +62,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
           value={url}
         />
       </label>
-      <fieldset className="form__radio" onChange={handleWeather}>
+      <fieldset className="form__radio">
         <legend className="form__legend">Select the weather type: </legend>
         <label htmlFor="hot" className="form__label form__fieldset-label">
           <input
@@ -71,6 +71,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             id="hot"
             name="radio"
             checked={weather === "hot"}
+            onChange={handleWeather}
           />
           Hot
         </label>
@@ -81,6 +82,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             id="warm"
             name="radio"
             checked={weather === "warm"}
+            onChange={handleWeather}
           />
           Warm
         </label>
@@ -91,6 +93,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             id="cold"
             name="radio"
             checked={weather === "cold"}
+            onChange={handleWeather}
           />
           Cold
         </label>
