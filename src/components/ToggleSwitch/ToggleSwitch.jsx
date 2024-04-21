@@ -4,17 +4,10 @@ import { useContext, useState } from "react";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
 
 function ToggleSwitch(props) {
-  /*const [currentTemperatureUnit, setcurrentTemperatureUnit] = useState("F");
-  
-  const handleChange = () => {
-    if (currentTemperatureUnit === "F") setcurrentTemperatureUnit("C");
-
-    if (currentTemperatureUnit === "C") setcurrentTemperatureUnit("F");
-  };
-*/
   const tempContext = useContext(CurrentTemperatureUnitContext);
   const currentTemperatureUnit = tempContext.currentTemperatureUnit;
   const handleChange = tempContext.handleToggleSwitchChange;
+
   return (
     <div>
       <label className="label">

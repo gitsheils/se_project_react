@@ -41,11 +41,9 @@ function App() {
     return sunrise * 1000 < now && now < sunset * 1000;
   };
 
-  const [currentTemperatureUnit, setcurrentTemperatureUnit] = useState("F");
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const handleToggleSwitchChange = () => {
-    if (currentTemperatureUnit === "F") setcurrentTemperatureUnit("C");
-
-    if (currentTemperatureUnit === "C") setcurrentTemperatureUnit("F");
+    setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
   };
 
   useEffect(() => {
@@ -76,11 +74,33 @@ function App() {
   }, []);
 
   const handleAddItemSubmit = (item) => {
-    setClothingItems([item, ...clothingItems]);
-    addItem(item.name, item.weather, item.link);
+    addItem(item.name, item.weather, item.link).then(() => {
+      setClothingItems([item, ...clothingItems]);
+      closeModal();
+    });
   };
   const [clothingItems, setClothingItems] = useState([]);
   const handleDeleteCard = (card) => {
+    deleteItem(card._id)
+      .then(() => {
+        const newClothingItems = [...clothingItems];
+        const ind = newClothingItems.findIndex((item) => {
+          return item._id === card._id;
+        }, card);
+        if (ind > -1) {
+          newClothingItems.splice(ind, 1);
+        }
+        setClothingItems(newClothingItems);
+        closeModal();
+      })
+      .catch(console.error);
+  };
+  {
+    /*
+  const handleDeleteCard = (card) => {
+
+    
+
     const newClothingItems = [...clothingItems];
     const ind = newClothingItems.findIndex((item) => {
       return item._id === card._id;
@@ -91,6 +111,8 @@ function App() {
     deleteItem(card._id);
     setClothingItems(newClothingItems);
   };
+*/
+  }
   return (
     <div className="page">
       <div className="page__content">

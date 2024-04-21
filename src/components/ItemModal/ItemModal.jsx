@@ -2,7 +2,6 @@ import "./ItemModal.css";
 function ItemModal({ isOpen, card, closeModal, handleDeleteCard }) {
   const handleClick = () => {
     handleDeleteCard(card);
-    closeModal();
   };
   return (
     <div className={`modal ${isOpen === "preview" && "modal_opened"}`}>

@@ -24,22 +24,13 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
   useEffect(() => {
     setName("");
     setUrl("");
-    refHot.current.checked = false;
-    refWarm.current.checked = false;
-    refCold.current.checked = false;
+    setWeather("");
   }, [isOpen]);
-
-  const length = clothingItems.length;
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddItem({ _id: length, name: name, weather: weather, link: url });
-    closeModal();
+    onAddItem({ name: name, weather: weather, link: url });
   }
-
-  const refHot = useRef();
-  const refWarm = useRef();
-  const refCold = useRef();
 
   return (
     <ModalWithForm
@@ -79,7 +70,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             type="radio"
             id="hot"
             name="radio"
-            ref={refHot}
+            checked={weather === "hot"}
           />
           Hot
         </label>
@@ -89,7 +80,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             type="radio"
             id="warm"
             name="radio"
-            ref={refWarm}
+            checked={weather === "warm"}
           />
           Warm
         </label>
@@ -99,7 +90,7 @@ const AddItemModal = ({ isOpen, closeModal, onAddItem, clothingItems }) => {
             type="radio"
             id="cold"
             name="radio"
-            ref={refCold}
+            checked={weather === "cold"}
           />
           Cold
         </label>

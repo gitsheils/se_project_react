@@ -1,9 +1,9 @@
+import processServerResp from "./utils";
+
 const baseUrl = "http://localhost:3001";
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  });
+  return fetch(`${baseUrl}/items`).then(processServerResp);
 }
 
 function addItem(name, weather, link) {
@@ -15,17 +15,13 @@ function addItem(name, weather, link) {
       weather: weather,
       link: link,
     }),
-  }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  });
+  }).then(processServerResp);
 }
 
 function deleteItem(id) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
-  }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  });
+  }).then(processServerResp);
 }
 
 export { getItems, addItem, deleteItem };
