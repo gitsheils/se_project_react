@@ -1,4 +1,7 @@
 import "./Header.css";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import { NavLink } from "react-router-dom";
+
 function Header(props) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -6,16 +9,24 @@ function Header(props) {
   });
   return (
     <header className="header">
-      <div className="header__logo"></div>
+      <NavLink to="/">
+        <div className="header__logo"></div>
+      </NavLink>
+
       <p className="header__date_location">
         {currentDate}, {props.weatherData.city}
       </p>
 
+      <ToggleSwitch />
       <button className="header__button" onClick={props.handleAddClick}>
         + Add clothes
       </button>
-      <p className="header__name">Terrence</p>
-      <div className="header__avatar"></div>
+      <NavLink to="/profile" className="navlink">
+        <div className="header__profile">
+          <p className="header__name">Terrence</p>
+          <div className="header__avatar"></div>
+        </div>
+      </NavLink>
     </header>
   );
 }

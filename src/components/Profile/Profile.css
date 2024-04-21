@@ -1,0 +1,50 @@
+.profile {
+  background-color: #f3f3f3;
+  font-family: "Cabinet Grotesk", arial;
+
+  display: flex;
+  align-items: flex-start;
+}
+/*
+.profile__user {
+  display: flex;
+  align-items: center;
+  margin: 47px 0 0;
+}
+.profile__avatar {
+  width: 56px;
+  height: 56px;
+  background: url("../../assets/avatar.png");
+  background-size: contain;
+  margin: 0 16px 0 0;
+}
+.profile__name {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 116px 0 0;
+}
+
+.cards_profile {
+  margin: 47px 0 0;
+}
+.cards__info_profile {
+  display: flex;
+  margin: 16px 0;
+}
+.cards__description {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 20px 0 0;
+}
+
+.cards__buttonAdd {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+
+  border: none;
+  background-color: #f3f3f3;
+  color: rgb(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+*/

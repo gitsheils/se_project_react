@@ -1,0 +1,23 @@
+.cards_profile {
+  margin: 47px 0 0;
+}
+.cards__info_profile {
+  display: flex;
+  margin: 16px 0;
+}
+.cards__description {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 20px 0 0;
+}
+
+.cards__buttonAdd {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+
+  border: none;
+  background-color: #f3f3f3;
+  color: rgb(0, 0, 0, 0.6);
+  cursor: pointer;
+}

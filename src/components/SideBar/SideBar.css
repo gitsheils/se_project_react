@@ -1,0 +1,17 @@
+.sidebar {
+  display: flex;
+  align-items: center;
+  margin: 47px 0 0;
+}
+.sidebar__avatar {
+  width: 56px;
+  height: 56px;
+  background: url("../../assets/avatar.png");
+  background-size: contain;
+  margin: 0 16px 0 0;
+}
+.sidebar__name {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 116px 0 0;
+}

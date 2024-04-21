@@ -20,6 +20,7 @@
   max-height: 498px;
 }
 .modal__caption {
+  position: relative;
   margin: 20px 32px 32px;
 }
 .modal__itemname {
@@ -27,4 +28,14 @@
 }
 .modal__weather {
   margin: 0;
+}
+.modal__delete {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  font-weight: 700;
+  font-size: 20px;
+  color: #ff4d00;
+  border: none;
+  background-color: white;
 }

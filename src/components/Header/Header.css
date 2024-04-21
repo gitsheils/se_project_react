@@ -17,24 +17,37 @@
   width: 89px;
   height: 40px;
   margin: 0;
+  cursor: pointer;
 }
 
 .header__date_location {
   margin: 0 auto 0 24px;
 }
+
 .header__button {
-  margin: 0 20px 0 0;
+  margin: 0 20px;
   border: none;
-  background-color: white;
+  background-color: #f3f3f3;
 }
 .header__button:hover {
   cursor: pointer;
 }
+
+.header__profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 .header__name {
   margin: 0 12px 0 0;
+  font-size: 20px;
+  color: #000;
 }
 .header__avatar {
   width: 40px;
   height: 40px;
   background: url("../../assets/avatar.png");
+}
+.navlink {
+  text-decoration: none;
 }

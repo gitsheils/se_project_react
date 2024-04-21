@@ -1,0 +1,49 @@
+.label {
+  display: flex;
+  position: relative;
+}
+.switch__box {
+  border-radius: 25px;
+  width: 56px;
+  height: 28px;
+  border: 2px solid black;
+  appearance: none;
+  margin: 0;
+  width: 56px;
+}
+.switch__slider {
+  border-radius: 20px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  background-color: black;
+  text-align: center;
+  position: absolute;
+}
+
+.switch__slider-F {
+  left: 2px;
+}
+.switch__slider-C {
+  right: 2px;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.switch__temp-F {
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  color: #f3f3f3;
+}
+.switch__temp-C {
+  position: absolute;
+  top: 3px;
+  right: 8px;
+  color: #f3f3f3;
+}
+.switch_active {
+  color: #f3f3f3;
+}
