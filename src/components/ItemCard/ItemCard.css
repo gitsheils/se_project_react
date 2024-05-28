@@ -16,10 +16,12 @@
   font-weight: 700;
   line-height: 20px;
 
+  /*
   position: absolute;
   top: 15px;
   left: 50%;
   transform: translate(-50%, 0%);
+  */
 }
 .card__image {
   width: 100%;
@@ -30,4 +32,25 @@
 }
 .card__image:hover {
   cursor: pointer;
+}
+
+.card__buttonLike {
+  width: 18px;
+  height: 15px;
+  background: url("../../assets/like.svg");
+  background-size: cover;
+  margin: 0 0 0 10px;
+}
+.card__buttonLike_active {
+  background-image: url("../../assets/likeactive.svg");
+}
+
+.card__title-and-like {
+  display: flex;
+  align-items: center;
+
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translate(-50%, 0%);
 }

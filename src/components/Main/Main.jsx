@@ -21,6 +21,7 @@ function Main(props) {
 
   const tempContext = useContext(CurrentTemperatureUnitContext);
   const currentTemperatureUnit = tempContext.currentTemperatureUnit;
+
   return (
     <main className="main">
       <WeatherCard weatherData={props.weatherData} />
@@ -30,6 +31,14 @@ function Main(props) {
           {currentTemperatureUnit} / You may want to wear:{" "}
         </p>
         <ul className="cards__list">
+          {/*
+          <ItemCard
+            item={{
+              name: "jan",
+              link: "https://i5.walmartimages.com/asr/fa04892c-2e22-4462-9042-c5ccc441c0a6.cdd56e332e08314f549dec11b58aae2a.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
+            }}
+          ></ItemCard>
+          */}
           {props.clothingItems
             .filter((item) => {
               return item.weather === getType();
@@ -41,6 +50,7 @@ function Main(props) {
                   key={item._id}
                   item={item}
                   handleCardClick={props.handleCardClick}
+                  onCardLike={props.onCardLike}
                 />
               );
             })}

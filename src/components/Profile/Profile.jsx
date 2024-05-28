@@ -6,11 +6,15 @@ import ClothesSection from "../ClothesSection/ClothesSection.jsx";
 function Profile(props) {
   return (
     <section className="profile">
-      <SideBar />
+      <SideBar
+        handleChangeProfileClick={props.handleChangeProfileClick}
+        handleSignout={props.handleSignout}
+      />
       <ClothesSection
         handleAddClick={props.handleAddClick}
         clothingItems={props.clothingItems}
         handleCardClick={props.handleCardClick}
+        onCardLike={props.onCardLike}
       />
     </section>
   );
