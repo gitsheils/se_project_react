@@ -15,7 +15,7 @@ function ItemModal({ isOpen, card, closeModal, handleDeleteCard }) {
   }`;
 
   return (
-    <div className={`modal ${isOpen === "preview" && "modal_opened"}`}>
+    <div className={`modal ${isOpen === true && "modal_opened"}`}>
       <div className="modal__content modal__content_type_image">
         <button className="modal__close" onClick={closeModal}></button>
         <img className="modal__image" src={card.imageUrl} alt={card.name} />

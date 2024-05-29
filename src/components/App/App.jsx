@@ -40,21 +40,22 @@ function App() {
     type: "cold",
   });
 
-  const [isOpen, setIsOpen] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   //
-  const [formType, setFormType] = useState("");
+  const [modalType, setModalType] = useState("");
 
   const handleAddClick = () => {
-    setIsOpen("form");
+    setIsOpen(true);
     //
-    setFormType("addgarm");
+    setModalType("addgarm");
   };
   const closeModal = () => {
-    setIsOpen("");
+    setIsOpen(false);
   };
   const handleCardClick = (card) => {
-    setIsOpen("preview");
+    setIsOpen(true);
+    setModalType("preview");
     setSelectedCard(card);
   };
 
@@ -69,16 +70,16 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleSignupClick = () => {
-    setIsOpen("form");
-    setFormType("signup");
+    setIsOpen(true);
+    setModalType("signup");
   };
   const handleSigninClick = () => {
-    setIsOpen("form");
-    setFormType("signin");
+    setIsOpen(true);
+    setModalType("signin");
   };
   const handleChangeProfileClick = () => {
-    setIsOpen("form");
-    setFormType("changeProfile");
+    setIsOpen(true);
+    setModalType("changeProfile");
   };
 
   useEffect(() => {
@@ -109,7 +110,8 @@ function App() {
   }, []);
 
   const handleAddItemSubmit = (item) => {
-    createItem(item.name, item.weather, item.link)
+    const jwt = getToken();
+    createItem(jwt, item.name, item.weather, item.link)
       .then((res) => {
         setClothingItems([res, ...clothingItems]);
         closeModal();
@@ -119,7 +121,9 @@ function App() {
 
   const [clothingItems, setClothingItems] = useState([]);
   const handleDeleteCard = (card) => {
-    deleteItem(card._id)
+    const jwt = getToken();
+
+    deleteItem(jwt, card._id)
       .then(() => {
         const newClothingItems = [...clothingItems];
         const ind = newClothingItems.findIndex((item) => {
@@ -137,7 +141,7 @@ function App() {
   const handleRegisterSubmit = (item) => {
     signup(item)
       .then((res) => {
-        setIsOpen("");
+        setIsOpen(false);
 
         handleLogin({ email: item.email, password: item.password });
       })
@@ -153,7 +157,7 @@ function App() {
 
     authorize(email, password)
       .then((data) => {
-        setIsOpen("");
+        setIsOpen(false);
         setToken(data.token);
         //setUserData(data.user);
         setIsLoggedIn(true);
@@ -169,11 +173,13 @@ function App() {
   };
   const handleUpdateProfile = ({ name, avatar }) => {
     const jwt = getToken();
-    updateUserInfo(jwt, name, avatar).then((newUserInfo) => {
-      const newData = { ...userData, name, avatar };
-      setUserData(newData);
-      setIsOpen("");
-    });
+    updateUserInfo(jwt, name, avatar)
+      .then((newUserInfo) => {
+        const newData = { ...userData, name, avatar };
+        setUserData(newData);
+        setIsOpen(false);
+      })
+      .catch(console.error);
   };
   const handleSignout = () => {
     setIsLoggedIn(false);
@@ -184,21 +190,25 @@ function App() {
   const handleCardLike = ({ id, isLiked }) => {
     const jwt = getToken();
     if (!isLiked) {
-      return likeItem(jwt, id).then(() => {
+      return likeItem(jwt, id)
+        .then(() => {
+          getItems()
+            .then((data) => {
+              setClothingItems(data);
+            })
+            .catch(console.error);
+        })
+        .catch(console.error);
+    }
+    return dislikeItem(jwt, id)
+      .then(() => {
         getItems()
           .then((data) => {
             setClothingItems(data);
           })
           .catch(console.error);
-      });
-    }
-    return dislikeItem(jwt, id).then(() => {
-      getItems()
-        .then((data) => {
-          setClothingItems(data);
-        })
-        .catch(console.error);
-    });
+      })
+      .catch(console.error);
   };
 
   const location = useLocation();
@@ -208,13 +218,15 @@ function App() {
     if (!jwt) {
       return;
     }
-    getUserInfo(jwt).then((user) => {
-      setIsLoggedIn(true);
-      setUserData(user);
+    getUserInfo(jwt)
+      .then((user) => {
+        setIsLoggedIn(true);
+        setUserData(user);
 
-      const redirectPath = location.state?.from?.pathname;
-      navigate(redirectPath);
-    });
+        const redirectPath = location.state?.from?.pathname;
+        navigate(redirectPath);
+      })
+      .catch(console.error);
   }, []);
 
   const [userData, setUserData] = useState({ name: "", avatar: "" });
@@ -283,42 +295,44 @@ function App() {
             </Routes>
 
             <Footer />
+            {modalType === "preview" && (
+              <ItemModal
+                isOpen={isOpen}
+                card={selectedCard}
+                closeModal={closeModal}
+                handleDeleteCard={handleDeleteCard}
+              />
+            )}
+            {modalType === "addgarm" && (
+              <AddItemModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                onAddItem={handleAddItemSubmit}
+                clothingItems={clothingItems}
+              />
+            )}
+            {modalType === "signup" && (
+              <RegisterModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                onRegister={handleRegisterSubmit}
+              />
+            )}
+            {modalType === "signin" && (
+              <LoginModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                onLogin={handleLogin}
+              />
+            )}
 
-            <ItemModal
-              isOpen={isOpen}
-              card={selectedCard}
-              closeModal={closeModal}
-              handleDeleteCard={handleDeleteCard}
-            />
-
-            <AddItemModal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              onAddItem={handleAddItemSubmit}
-              clothingItems={clothingItems}
-              formType={formType}
-            />
-
-            <RegisterModal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              formType={formType}
-              onRegister={handleRegisterSubmit}
-            />
-
-            <LoginModal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              formType={formType}
-              onLogin={handleLogin}
-            />
-
-            <UpdateProfileModal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              formType={formType}
-              onUpdate={handleUpdateProfile}
-            />
+            {modalType === "changeProfile" && (
+              <UpdateProfileModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                onUpdate={handleUpdateProfile}
+              />
+            )}
           </CurrentTemperatureUnitContext.Provider>
         </div>
       </div>
