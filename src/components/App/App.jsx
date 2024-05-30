@@ -137,6 +137,8 @@ function App() {
       })
       .catch(console.error);
   };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleRegisterSubmit = (item) => {
     signup(item)
@@ -149,7 +151,6 @@ function App() {
         console.log(err);
       });
   };
-  const navigate = useNavigate();
   const handleLogin = ({ email, password }) => {
     if (!email || !password) {
       return;
@@ -161,6 +162,8 @@ function App() {
         setToken(data.token);
         //setUserData(data.user);
         setIsLoggedIn(true);
+
+        navigate("/profile");
 
         const jwt = getToken();
         getUserInfo(jwt)
@@ -211,7 +214,6 @@ function App() {
       .catch(console.error);
   };
 
-  const location = useLocation();
   useEffect(() => {
     const jwt = getToken();
 
