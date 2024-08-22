@@ -8,26 +8,7 @@ const baseUrl =
 function getItems() {
   return fetch(`${baseUrl}/items`).then(processServerResp);
 }
-/*
-function addItem(name, weather, link) {
-  return fetch(`${baseUrl}/items`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: name,
-      weather: weather,
-      link: link,
-    }),
-  }).then(processServerResp);
-}
 
-function deleteItem(id) {
-  return fetch(`${baseUrl}/items/${id}`, {
-    method: "DELETE",
-  }).then(processServerResp);
-}
-*/
-//
 function getUserInfo(token) {
   return fetch(`${baseUrl}/users/me`, {
     headers: {
@@ -46,16 +27,7 @@ function updateUserInfo(token, name, avatar) {
     body: JSON.stringify({ name, avatar }),
   }).then(processServerResp);
 }
-/*
-function getItems(token) {
-  return fetch(`${baseUrl}/items`, {
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-  }).then(processServerResp);
-}
-*/
+
 function createItem(token, name, weather, imageUrl) {
   return fetch(`${baseUrl}/items`, {
     method: "POST",

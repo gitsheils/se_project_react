@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-//import reactLogo from "./assets/react.svg";
-//import viteLogo from "/vite.svg";
 import "./App.css";
 import Header from "../Header/Header.jsx";
 import Footer from "../Footer/Footer.jsx";
 import Main from "../Main/Main.jsx";
-import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import { getWeather } from "../../utils/weatherAPI.js";
 import { coordinates, APIkey } from "../../utils/constants.js";
-
-import AddGarmentForm from "../AddGarmentForm/AddGarmentForm.jsx";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext.js";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Profile from "../Profile/Profile.jsx";
@@ -24,7 +19,6 @@ import {
   likeItem,
   dislikeItem,
 } from "../../utils/api.js";
-//
 import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import { signup, authorize } from "../../utils/auth.js";
 import LoginModal from "../LoginModal/LoginModal.jsx";
@@ -39,48 +33,13 @@ function App() {
     temp: "",
     type: "cold",
   });
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
-  //
-  const [modalType, setModalType] = useState("");
-
-  const handleAddClick = () => {
-    setIsOpen(true);
-    //
-    setModalType("addgarm");
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-  const handleCardClick = (card) => {
-    setIsOpen(true);
-    setModalType("preview");
-    setSelectedCard(card);
-  };
-
-  const determineDay = ({ sunrise, sunset }, now) => {
-    return sunrise * 1000 < now && now < sunset * 1000;
-  };
-
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const handleToggleSwitchChange = () => {
-    setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
-  };
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const handleSignupClick = () => {
-    setIsOpen(true);
-    setModalType("signup");
-  };
-  const handleSigninClick = () => {
-    setIsOpen(true);
-    setModalType("signin");
-  };
-  const handleChangeProfileClick = () => {
-    setIsOpen(true);
-    setModalType("changeProfile");
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const [userData, setUserData] = useState({ name: "", avatar: "" });
+  const [clothingItems, setClothingItems] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -104,119 +63,14 @@ function App() {
   useEffect(() => {
     getItems()
       .then((data) => {
-        setClothingItems(data);
+        const reversed = data.reverse();
+        setClothingItems(reversed);
       })
       .catch(console.error);
   }, []);
 
-  const handleAddItemSubmit = (item) => {
-    const jwt = getToken();
-    createItem(jwt, item.name, item.weather, item.link)
-      .then((res) => {
-        setClothingItems([res, ...clothingItems]);
-        closeModal();
-      })
-      .catch(console.error);
-  };
-
-  const [clothingItems, setClothingItems] = useState([]);
-  const handleDeleteCard = (card) => {
-    const jwt = getToken();
-
-    deleteItem(jwt, card._id)
-      .then(() => {
-        const newClothingItems = [...clothingItems];
-        const ind = newClothingItems.findIndex((item) => {
-          return item._id === card._id;
-        }, card);
-        if (ind > -1) {
-          newClothingItems.splice(ind, 1);
-        }
-        setClothingItems(newClothingItems);
-        closeModal();
-      })
-      .catch(console.error);
-  };
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleRegisterSubmit = (item) => {
-    signup(item)
-      .then((res) => {
-        setIsOpen(false);
-
-        handleLogin({ email: item.email, password: item.password });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const handleLogin = ({ email, password }) => {
-    if (!email || !password) {
-      return;
-    }
-
-    authorize(email, password)
-      .then((data) => {
-        setIsOpen(false);
-        setToken(data.token);
-        //setUserData(data.user);
-        setIsLoggedIn(true);
-
-        navigate("/profile");
-
-        const jwt = getToken();
-        getUserInfo(jwt)
-          .then((user) => {
-            setUserData(user);
-          })
-          .catch(console.error);
-      })
-      .catch(console.error);
-  };
-  const handleUpdateProfile = ({ name, avatar }) => {
-    const jwt = getToken();
-    updateUserInfo(jwt, name, avatar)
-      .then((newUserInfo) => {
-        const newData = { ...userData, name, avatar };
-        setUserData(newData);
-        setIsOpen(false);
-      })
-      .catch(console.error);
-  };
-  const handleSignout = () => {
-    setIsLoggedIn(false);
-    setUserData({ name: "", avatar: "" });
-    removeToken();
-  };
-
-  const handleCardLike = ({ id, isLiked }) => {
-    const jwt = getToken();
-    if (!isLiked) {
-      return likeItem(jwt, id)
-        .then(() => {
-          getItems()
-            .then((data) => {
-              setClothingItems(data);
-            })
-            .catch(console.error);
-        })
-        .catch(console.error);
-    }
-    return dislikeItem(jwt, id)
-      .then(() => {
-        getItems()
-          .then((data) => {
-            setClothingItems(data);
-          })
-          .catch(console.error);
-      })
-      .catch(console.error);
-  };
-
   useEffect(() => {
     const jwt = getToken();
-
     if (!jwt) {
       return;
     }
@@ -231,25 +85,134 @@ function App() {
       .catch(console.error);
   }, []);
 
-  const [userData, setUserData] = useState({ name: "", avatar: "" });
-  {
-    /*
-  const handleDeleteCard = (card) => {
-
-    
-
-    const newClothingItems = [...clothingItems];
-    const ind = newClothingItems.findIndex((item) => {
-      return item._id === card._id;
-    }, card);
-    if (ind > -1) {
-      newClothingItems.splice(ind, 1);
-    }
-    deleteItem(card._id);
-    setClothingItems(newClothingItems);
+  const determineDay = ({ sunrise, sunset }, now) => {
+    return sunrise * 1000 < now && now < sunset * 1000;
   };
-*/
-  }
+  const handleToggleSwitchChange = () => {
+    setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const handleSignupClick = () => {
+    setIsOpen(true);
+    setModalType("signup");
+  };
+  const handleSigninClick = () => {
+    setIsOpen(true);
+    setModalType("signin");
+  };
+  const handleChangeProfileClick = () => {
+    setIsOpen(true);
+    setModalType("changeProfile");
+  };
+  const handleAddClick = () => {
+    setIsOpen(true);
+    setModalType("addGarm");
+  };
+  const handleCardClick = (card) => {
+    setIsOpen(true);
+    setModalType("preview");
+    setSelectedCard(card);
+  };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleRegisterSubmit = (item) => {
+    signup(item)
+      .then((res) => {
+        setIsOpen(false);
+        handleLogin({ email: item.email, password: item.password });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleLogin = ({ email, password }) => {
+    if (!email || !password) {
+      return;
+    }
+
+    authorize(email, password)
+      .then((data) => {
+        setIsOpen(false);
+        setIsLoggedIn(true);
+        navigate("/profile");
+
+        setToken(data.token);
+        const jwt = getToken();
+        getUserInfo(jwt)
+          .then((user) => {
+            setUserData(user);
+          })
+          .catch(console.error);
+      })
+      .catch(console.error);
+  };
+  const handleSignout = () => {
+    setIsLoggedIn(false);
+    setUserData({ name: "", avatar: "" });
+    removeToken();
+  };
+  const handleUpdateProfile = ({ name, avatar }) => {
+    const jwt = getToken();
+    updateUserInfo(jwt, name, avatar)
+      .then((res) => {
+        const newData = { ...userData, name, avatar };
+        setUserData(newData);
+        setIsOpen(false);
+      })
+      .catch(console.error);
+  };
+  const handleAddItemSubmit = (item) => {
+    const jwt = getToken();
+    createItem(jwt, item.name, item.weather, item.link)
+      .then((res) => {
+        setClothingItems([res, ...clothingItems]);
+        closeModal();
+      })
+      .catch(console.error);
+  };
+  const handleDeleteCard = (card) => {
+    const jwt = getToken();
+    deleteItem(jwt, card._id)
+      .then(() => {
+        const newClothingItems = [...clothingItems];
+        const ind = newClothingItems.findIndex((item) => {
+          return item._id === card._id;
+        });
+        if (ind > -1) {
+          newClothingItems.splice(ind, 1);
+        }
+        setClothingItems(newClothingItems);
+        closeModal();
+      })
+      .catch(console.error);
+  };
+  const handleCardLike = ({ id, isLiked }) => {
+    const jwt = getToken();
+    if (!isLiked) {
+      return likeItem(jwt, id)
+        .then(() => {
+          getItems()
+            .then((data) => {
+              setClothingItems(data.reverse());
+            })
+            .catch(console.error);
+        })
+        .catch(console.error);
+    }
+    dislikeItem(jwt, id)
+      .then(() => {
+        getItems()
+          .then((data) => {
+            setClothingItems(data.reverse());
+          })
+          .catch(console.error);
+      })
+      .catch(console.error);
+  };
+
   return (
     <CurrentUserContext.Provider value={userData}>
       <div className="page">
@@ -302,10 +265,10 @@ function App() {
                 isOpen={isOpen}
                 card={selectedCard}
                 closeModal={closeModal}
-                handleDeleteCard={handleDeleteCard}
+                onDelete={handleDeleteCard}
               />
             )}
-            {modalType === "addgarm" && (
+            {modalType === "addGarm" && (
               <AddItemModal
                 isOpen={isOpen}
                 closeModal={closeModal}

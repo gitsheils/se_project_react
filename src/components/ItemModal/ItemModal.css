@@ -7,7 +7,7 @@
   font-size: 20px;
   font-weight: 700;
   line-height: 24px;
-  overflow: hidden;
+  overflow: scroll;
 }
 .modal__close {
   width: 20px;

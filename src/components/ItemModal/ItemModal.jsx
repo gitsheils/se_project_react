@@ -3,9 +3,9 @@ import "./ItemModal.css";
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
-function ItemModal({ isOpen, card, closeModal, handleDeleteCard }) {
+function ItemModal({ isOpen, card, closeModal, onDelete }) {
   const handleClick = () => {
-    handleDeleteCard(card);
+    onDelete(card);
   };
 
   const currentUserContext = useContext(CurrentUserContext);
